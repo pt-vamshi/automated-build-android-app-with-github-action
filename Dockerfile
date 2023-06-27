@@ -9,4 +9,4 @@ RUN apk update \
 
 RUN chmod +x /app/entrypoint.sh
 
-ENTRYPOINT [ "entrypoint.sh" ]
+ENTRYPOINT [ "/app/entrypoint.sh" ]
