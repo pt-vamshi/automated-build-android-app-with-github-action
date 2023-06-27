@@ -59,6 +59,3 @@ jobs:
 
       - name: Sign AAB
         uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: ./
-     
