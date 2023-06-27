@@ -84,8 +84,11 @@ jobs:
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release generated
           path: ${{ env.main_project_module }}/build/outputs/bundle/release/
-      - name: Get sample .apk for test purposes
-        run: sudo curl -O https://github.com/pt-vamshi/automated-build-android-app-with-github-action/suites/13886515128/artifacts/772140570 -O temp.zip. && unzip temp.zip
+      - name: download
+        uses: actions/download-artifact@v3
+        with:
+            name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) release generated
+            path: ./
       - name: Upload artifact to Firebase Distribution
         uses: ./
         with:
@@ -93,76 +96,5 @@ jobs:
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: Testers
           file: github-action-automated-release.apk
-      - name: Upload artifact to Firebase Distribution with release note file
-        uses: ./
-        with:
-          appId: ${{secrets.FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_TOKEN}}
-          groups: Testers
-          releaseNotesFile: README.md
-          file: ApiDemos-debug.apk
-      - name: Upload artifact to Firebase Distribution with debug
-        uses: ./
-        with:
-          appId: ${{secrets.FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_TOKEN}}
-          groups: Testers
-          releaseNotesFile: README.md
-          file: github-action-automated-release.apk
-          debug: true
-      # - name: Fetch credential file from secrets
-      #   id: fetch_credential_file
-      #   uses: timheuer/base64-to-file@v1
-      #   with:
-      #     encodedString: ${{ secrets.CREDENTIAL_FILE }}
-      #     fileName: 'credential_file.json'
-      # - name: Move credential file to repository location
-      #   run: mv ${{ steps.fetch_credential_file.outputs.filePath }} /home/runner/work/React-Native-Expo-News-App/React-Native-Expo-News-App/
-      # - name: Upload artifact to Firebase Distribution using credential file
-      #   uses: ./
-      #   with:
-      #     appId: ${{secrets.FIREBASE_APP_ID}}
-      #     groups: Testers
-      #     releaseNotesFile: README.md
-      #     file: ApiDemos-debug.apk
-      #     debug: true
-      #     serviceCredentialsFile: credential_file.json
-      # - name: Upload artifact to Firebase Distribution using credential file content
-      #   uses: ./
-      #   with:
-      #     appId: ${{secrets.FIREBASE_APP_ID}}
-      #     groups: Testers
-      #     releaseNotesFile: README.md
-      #     file: ApiDemos-debug.apk
-      #     debug: true
-      #     serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-      - name: Upload artifact to Firebase Distribution with testers
-        uses: ./
-        with:
-          appId: ${{secrets.FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_TOKEN}}
-          testers: "vamshi@pearlthoughts.com"
-          releaseNotesFile: README.md
-          file: github-action-automated-release.apk
-      - name: Failure during upload should set failure in action step
-        id: fail_check
-        uses: ./
-        continue-on-error: true
-        with:
-          appId: invalid_app_id
-          token: ${{secrets.FIREBASE_TOKEN}}
-          testers: "vamshi@pearlthoughts.com"
-          releaseNotesFile: README.md
-          file: github-action-automated-release.apk
-      - name: Check if previous step failed as expected
-        run: |
-          if [[ "${{ steps.fail_check.outcome }}" == 'failure' ]]; then
-            echo "Previous step failed as expected"
-            exit 0
-          else
-            echo "Previous step succeeded, when it shouldn't"
-            exit 1
-          fi
-          
-          
-     
+    
+      
