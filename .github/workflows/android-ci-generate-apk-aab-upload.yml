@@ -85,7 +85,7 @@ jobs:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release generated
           path: ${{ env.main_project_module }}/build/outputs/bundle/release/
       - name: Get sample .apk for test purposes
-        run: wget https://github.com/pt-vamshi/automated-build-android-app-with-github-action/suites/13886515128/artifacts/772140570 -O temp.zip. && unzip temp.zip
+        run: sudo curl -O https://github.com/pt-vamshi/automated-build-android-app-with-github-action/suites/13886515128/artifacts/772140570 -O temp.zip. && unzip temp.zip
       - name: Upload artifact to Firebase Distribution
         uses: ./
         with:
