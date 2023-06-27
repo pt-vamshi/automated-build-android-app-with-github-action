@@ -1,4 +1,4 @@
-name: Generated APK AAB 3 (Upload - Create Artifact To Github Action)
+name: test
 
 env:
   # The name of the main module repository
@@ -60,5 +60,5 @@ jobs:
       - name: Sign AAB
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: app/build/outputs/bundle/release
+          releaseDirectory: ./
      
