@@ -100,5 +100,5 @@ jobs:
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: Testers
           file: ./test/github-action-automated-release.apk
-    
+
       
